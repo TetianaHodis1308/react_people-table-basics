@@ -20,10 +20,6 @@ export const PeopleTable = ({ people }: PeopleTableProps) => {
 
   const { slug } = useParams();
 
-  if (people.length === 0) {
-    return <p data-cy="noPeopleMessage">There are no people on the server</p>;
-  }
-
   return (
     <table
       data-cy="peopleTable"
@@ -40,23 +36,29 @@ export const PeopleTable = ({ people }: PeopleTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {people.map(person => (
-          <tr
-            key={person.slug}
-            data-cy="person"
-            className={cn({ 'has-background-warning': person.slug === slug })}
-          >
-            <td>
-              <PersonLink person={person} />
-            </td>
-
-            <td>{person.sex}</td>
-            <td>{person.born}</td>
-            <td>{person.died}</td>
-            <td>{renderParentCell(person.motherName)}</td>
-            <td>{renderParentCell(person.fatherName)}</td>
+        {people.length === 0 ? (
+          <tr>
+            <td data-cy="noPeopleMessage">There are no people on the server</td>
           </tr>
-        ))}
+        ) : (
+          people.map(person => (
+            <tr
+              key={person.slug}
+              data-cy="person"
+              className={cn({ 'has-background-warning': person.slug === slug })}
+            >
+              <td>
+                <PersonLink person={person} />
+              </td>
+
+              <td>{person.sex}</td>
+              <td>{person.born}</td>
+              <td>{person.died}</td>
+              <td>{renderParentCell(person.motherName)}</td>
+              <td>{renderParentCell(person.fatherName)}</td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );
