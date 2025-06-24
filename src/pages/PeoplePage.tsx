@@ -6,18 +6,18 @@ import { Person } from '../types';
 
 export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
-  const [isLoadingPeople, setIsLoadingPeople] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    setIsLoadingPeople(true);
+    setIsLoading(true);
     getPeople()
       .then(peopleFromServer => {
         setPeople(peopleFromServer);
       })
       .catch(() => setIsError(true))
       .finally(() => {
-        setIsLoadingPeople(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -32,7 +32,7 @@ export const PeoplePage = () => {
             </p>
           )}
 
-          {isLoadingPeople ? <Loader /> : <PeopleTable people={people} />}
+          {isLoading ? <Loader /> : <PeopleTable people={people} />}
         </div>
       </div>
     </div>
